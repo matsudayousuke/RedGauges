@@ -3,6 +3,6 @@ class GaugesController < ApplicationController
 
 
   def index
-    @issues = Issue.find(:all)
+    @members = User.find(:all)
   end
 end

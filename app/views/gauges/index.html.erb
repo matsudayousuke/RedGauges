@@ -7,11 +7,13 @@
     <th>3日目</th>
     <th>4日目</th>
   </tr>
+  <% @members.each do |member| %>
   <tr>
-    <td>メンバ</td>
+    <td><%= member.lastname %></td>
     <td>1日目</td>
     <td>2日目</td>
     <td>3日目</td>
     <td>4日目</td>
   </tr>
+  <% end %>
 </table>
