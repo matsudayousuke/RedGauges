@@ -1,19 +1,20 @@
 <h2>Gauges#index</h2>
-<table>
+
+<table class="list">
   <tr>
     <th>メンバ</th>
-    <th>1日目</th>
-    <th>2日目</th>
-    <th>3日目</th>
-    <th>4日目</th>
+    <th>issue</th>
+    <% get_this_week().each do |date| %>
+      <th><%= date.strftime("%m/%d") %></th>
+    <% end %>
   </tr>
   <% @members.each do |member| %>
-  <tr>
-    <td><%= member.lastname %></td>
-    <td>1日目</td>
-    <td>2日目</td>
-    <td>3日目</td>
-    <td>4日目</td>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td><%= "#{member.firstname} #{member.lastname}" %></td>
+    <td><%= member.issues.to_s %></td>
+    <% get_this_week().each do |date| %>
+      <td><%= date.strftime("%m/%d") %></td>
+    <% end %>
   </tr>
   <% end %>
 </table>

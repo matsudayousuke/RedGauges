@@ -3,6 +3,7 @@ class GaugesController < ApplicationController
 
 
   def index
-    @members = User.find(:all)
+    @project = Project.find(params[:project_id])
+    @members = User.with_this_week_issues()
   end
 end
