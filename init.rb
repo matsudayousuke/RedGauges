@@ -12,5 +12,5 @@ Redmine::Plugin.register :redmine_red_gauges do
 
    permission :gauges, {:gauges => [:index]}, :public => true
    menu :project_menu, :gauges, { :controller => 'gauges', :action => 'index' },
-     :caption => 'Gauges', :after => :activity, :param => :project_id
+     :caption => :label_gauges, :after => :activity, :param => :project_id
 end

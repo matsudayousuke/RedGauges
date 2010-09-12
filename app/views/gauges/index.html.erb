@@ -2,7 +2,7 @@
 
 <table class="list">
   <tr>
-    <th>メンバ</th>
+    <th><%= l(:label_member) %></th>
     <th>issue</th>
     <% get_this_week().each do |date| %>
       <th><%= date.strftime("%m/%d") %></th>
