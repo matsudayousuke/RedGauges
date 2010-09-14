@@ -31,17 +31,15 @@ module UserPatch
     end
 
     def issues_by_date(date)
-      issues_by {|i| i.start_date == date}
-    end
-
-    def issues_by(&condition_block)
-      ret = []
-      issues.each {|i| ret << i if condition_block.call(i)}
-      ret
+      issues.find_all {|i| i.start_date == date}
     end
 
     def closed_issues_count_by_date(date)
-      closed_issues_by_date(date).size
+      (issues_by_date(date) & closed_issues).size
+    end
+
+    def closed_issues
+      issues.find_all {|i| i.closed?}
     end
   end
 end
