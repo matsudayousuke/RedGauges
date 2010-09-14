@@ -13,7 +13,7 @@
     <td><%= "#{member.firstname} #{member.lastname}" %></td>
     <td><%= member.issues.to_s %></td>
     <% get_this_week().each do |date| %>
-      <td><%= date.strftime("%m/%d") %></td>
+      <td><%= member.issues_count_by_date(date) %></td>
     <% end %>
   </tr>
   <% end %>

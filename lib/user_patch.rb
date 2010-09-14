@@ -26,6 +26,23 @@ module UserPatch
   end
 
   module InstanceMethods
+    def issues_count_by_date(date)
+      issues_by_date(date).size
+    end
+
+    def issues_by_date(date)
+      issues_by {|i| i.start_date == date}
+    end
+
+    def issues_by(&condition_block)
+      ret = []
+      issues.each {|i| ret << i if condition_block.call(i)}
+      ret
+    end
+
+    def closed_issues_count_by_date(date)
+      closed_issues_by_date(date).size
+    end
   end
 end
 
