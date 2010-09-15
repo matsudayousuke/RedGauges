@@ -26,21 +26,48 @@ module UserPatch
   end
 
   module InstanceMethods
-    def issues_count_by_date(date)
-      issues_by_date(date).size
-    end
-
     def issues_by_date(date)
       issues.find_all {|i| i.start_date == date}
     end
 
-    def closed_issues_count_by_date(date)
-      (issues_by_date(date) & closed_issues).size
+    def closed_issues_by_date(date)
+      issues_by_date(date) & closed_issues
+    end
+
+    def open_issues_by_date(date)
+      issues_by_date(date) & open_issues
     end
 
     def closed_issues
       issues.find_all {|i| i.closed?}
     end
+
+    def open_issues
+      issues.find_all {|i| !i.closed?}
+    end
+
+    def completed_pourcent_by_date(date)
+      return 0 if issues_by_date(date).size == 0
+      return 100 if open_issues_by_date(date).size == 0
+      issues_progress_by_date(date, false) +
+        issues_progress_by_date(date, true)
+    end
+
+    def closed_pourcent_by_date(date)
+      return 0 if issues_by_date(date).size == 0
+      issues_progress_by_date(date, false)
+    end
+
+    def issues_progress_by_date(date, open)
+        progress = 0
+        if issues_by_date(date).size > 0
+          progress = open ?
+            open_issues_by_date(date).size.to_f / issues_by_date(date).size :
+            closed_issues_by_date(date).size.to_f / issues_by_date(date).size
+        end
+        progress * 100
+    end
+
   end
 end
 
