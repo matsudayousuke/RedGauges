@@ -1,10 +1,12 @@
 require 'user'
+require 'gauges_helper'
 
 module UserPatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
 
     base.send(:include, InstanceMethods)
+    base.extend(GaugesHelper)
 
     # Same as typing in the class
     base.class_eval do
@@ -17,11 +19,9 @@ module UserPatch
 
   module ClassMethods
     def with_this_week_issues
-      start_of_week = Date.today - Date.today.wday
-      end_of_week = start_of_week + 6
       User.find(:all, :include => :issues, :conditions =>
           ["issues.id is null or issues.start_date between ? and ?",
-            start_of_week, end_of_week])
+            get_start_of_week(Date.today), get_end_of_week(Date.today)])
     end
   end
 
