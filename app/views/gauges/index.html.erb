@@ -19,3 +19,4 @@
   </tr>
   <% end %>
 </table>
+<%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
