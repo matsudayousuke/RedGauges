@@ -18,10 +18,10 @@ module UserPatch
   end
 
   module ClassMethods
-    def with_this_week_issues
+    def with_week_issues(date)
       User.find(:all, :include => :issues, :conditions =>
           ["issues.id is null or issues.start_date between ? and ?",
-            get_start_of_week(Date.today), get_end_of_week(Date.today)])
+            get_start_of_week(date), get_end_of_week(date)])
     end
   end
 

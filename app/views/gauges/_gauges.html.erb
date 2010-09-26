@@ -1,0 +1,26 @@
+<div id="gauges">
+  <%= link_to_remote(l(:label_previous), :update => "gauges",
+    :url => {:action => :prev_week, :project_id => @project, :base_date => @base_date}) %>
+  <%= link_to_remote(l(:label_next), :update => "gauges",
+    :url => {:action => :next_week, :project_id => @project, :base_date => @base_date}) %>
+  <table class="list">
+    <tr>
+      <th><%= l(:label_member) %></th>
+      <% get_week(@base_date).each do |date| %>
+        <th><%= date.strftime("%m/%d") %></th>
+      <% end %>
+    </tr>
+    <% @members.each do |member| %>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <td><%= "#{member.firstname} #{member.lastname}" %></td>
+      <% get_week(@base_date).each do |date| %>
+        <td>
+          <%= progress_bar([member.closed_pourcent_by_date(date), member.completed_pourcent_by_date(date)], :width => '100%') %>
+          <%= member.closed_issues_by_date(date).size %> / <%= member.issues_by_date(date).size %>
+        </td>
+      <% end %>
+    </tr>
+    <% end %>
+  </table>
+  <input type="hidden" name="base_date" value="<%= @base_date.to_s %>">
+</div>

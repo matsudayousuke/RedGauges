@@ -1,22 +1,4 @@
 <h2>Gauges#index</h2>
-
-<table class="list">
-  <tr>
-    <th><%= l(:label_member) %></th>
-    <% get_this_week().each do |date| %>
-      <th><%= date.strftime("%m/%d") %></th>
-    <% end %>
-  </tr>
-  <% @members.each do |member| %>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td><%= "#{member.firstname} #{member.lastname}" %></td>
-    <% get_this_week().each do |date| %>
-      <td>
-        <%= progress_bar([member.closed_pourcent_by_date(date), member.completed_pourcent_by_date(date)], :width => '100%') %>
-        <%= member.closed_issues_by_date(date).size %> / <%= member.issues_by_date(date).size %>
-      </td>
-    <% end %>
-  </tr>
-  <% end %>
-</table>
+<%= render :partial => 'gauges/gauges', :locals => {:members => @members} %>
 <%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
+
