@@ -24,18 +24,29 @@ class GaugesController < ApplicationController
   def prev_week
     @base_date = Date.strptime(params[:base_date])
     @base_date = @base_date - 1.weeks
-    move_week
+    show_week
   end
 
   def next_week
     @base_date = Date.strptime(params[:base_date])
     @base_date = @base_date + 1.weeks
-    move_week
+    show_week
   end
 
-  def move_week
-    @project = Project.find(params[:project_id])
+  def show_week
     @members = User.with_week_issues(@base_date)
     render :layout => false, :partial => 'gauges/gauges'
+  end
+
+  def move_issue
+    new_member_id = params[:where].split("|")[0]
+    new_date = params[:where].split("|")[1]
+    issue_id = params[:dropped].split("-")[1]
+    issue = Issue.find_by_id(issue_id)
+    issue.assigned_to_id = new_member_id
+    issue.start_date = new_date
+    issue.save
+    @base_date = Date.strptime(params[:base_date])
+    show_week
   end
 end

@@ -1,8 +1,8 @@
 <div id="gauges">
   <%= link_to_remote(l(:label_previous), :update => "gauges",
-    :url => {:action => :prev_week, :project_id => @project, :base_date => @base_date}) %>
+    :url => {:action => :prev_week, :base_date => @base_date}) %>
   <%= link_to_remote(l(:label_next), :update => "gauges",
-    :url => {:action => :next_week, :project_id => @project, :base_date => @base_date}) %>
+    :url => {:action => :next_week, :base_date => @base_date}) %>
   <table class="list">
     <tr>
       <th><%= l(:label_member) %></th>
@@ -14,9 +14,18 @@
     <tr class="<%= cycle('odd', 'even') %>">
       <td><%= "#{member.firstname} #{member.lastname}" %></td>
       <% get_week(@base_date).each do |date| %>
-        <td>
+        <td id='<%= "drop|#{member.id.to_s}|#{date.to_s}" %>'>
           <%= progress_bar([member.closed_pourcent_by_date(date), member.completed_pourcent_by_date(date)], :width => '100%') %>
           <%= member.closed_issues_by_date(date).size %> / <%= member.issues_by_date(date).size %>
+          <%= drop_receiving_element "drop|#{member.id.to_s}|#{date.to_s}",
+            :update => 'gauges',
+            :with => "'dropped=' + element.id",
+            :hoverclass => "hover",
+            :url => { :action => "move_issue",
+              :where => "#{member.id.to_s}|#{date.to_s}",
+              :base_date => @base_date
+            }
+          %>
         </td>
       <% end %>
     </tr>
