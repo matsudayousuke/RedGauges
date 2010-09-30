@@ -1,0 +1,22 @@
+/* 
+    Document   : gauges
+    Created on : 2010/09/30, 23:51:00
+    Author     : matsudayousuke
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+.hover {
+    border: 3px solid #99ccff;
+}
+
+
