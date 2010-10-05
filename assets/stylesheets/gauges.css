@@ -16,7 +16,8 @@ root {
 }
 
 .hover {
-    border: 3px solid #99ccff;
+    background-color:#ffffdd;
+/*    border: 3px solid #99ccff; */
 }
 
 
