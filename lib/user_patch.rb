@@ -19,9 +19,9 @@ module UserPatch
 
   module ClassMethods
     def with_week_issues(date)
-      User.find(:all, :include => :issues, :conditions =>
-          ["issues.id is null or issues.start_date between ? and ?",
-            get_start_of_week(date), get_end_of_week(date)])
+      User.find(:all, :joins =>
+          "LEFT JOIN issues ON users.id = issues.assigned_to_id " +
+          "AND issues.start_date BETWEEN #{get_start_of_week(date)} AND #{get_end_of_week(date)}")
     end
   end
 
