@@ -11,7 +11,7 @@ class GaugesController < ApplicationController
   def index
     @project = Project.find(params[:project_id])
     @base_date = Date.today
-    @members = User.with_week_issues(@base_date)
+    @members = Member.with_week_issues(@base_date)
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
@@ -34,7 +34,7 @@ class GaugesController < ApplicationController
   end
 
   def show_week
-    @members = User.with_week_issues(@base_date)
+    @members = Member.with_week_issues(@base_date)
     render :layout => false, :partial => 'gauges/gauges'
   end
 

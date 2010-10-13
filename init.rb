@@ -1,6 +1,6 @@
 require 'redmine'
 
-require 'user_patch'
+require 'member_patch'
 
 Redmine::Plugin.register :redmine_red_gauges do
   name 'Redmine RedGauges plugin'

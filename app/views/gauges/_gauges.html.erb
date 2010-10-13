@@ -12,7 +12,7 @@
     </tr>
     <% @members.each do |member| %>
     <tr class="<%= cycle('odd', 'even') %>">
-      <td><%= "#{member.firstname} #{member.lastname}" %></td>
+      <td><%= "#{member.user.firstname} #{member.user.lastname}" %></td>
       <% get_week(@base_date).each do |date| %>
         <td id='<%= "drop|#{member.id.to_s}|#{date.to_s}" %>'>
           <%= progress_bar([member.closed_pourcent_by_date(date), member.completed_pourcent_by_date(date)], :width => '100%') %>

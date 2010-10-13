@@ -1,7 +1,7 @@
-require 'user'
+require 'member'
 require 'gauges_helper'
 
-module UserPatch
+module MemberPatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
 
@@ -12,15 +12,15 @@ module UserPatch
     base.class_eval do
       unloadable # Send unloadable so it will not be unloaded in development
       has_many :issues, :foreign_key => "assigned_to_id"
-
     end
 
   end
 
   module ClassMethods
     def with_week_issues(date)
-      User.find(:all, :joins =>
-          "LEFT JOIN issues ON users.id = issues.assigned_to_id " +
+      Member.find(:all, :joins =>
+          "LEFT JOIN users ON members.user_id = users.id " +
+          "LEFT JOIN issues ON members.user_id = issues.assigned_to_id " +
           "AND issues.start_date BETWEEN #{get_start_of_week(date)} AND #{get_end_of_week(date)}")
     end
   end
@@ -71,4 +71,4 @@ module UserPatch
   end
 end
 
-User.send(:include, UserPatch)
+Member.send(:include, MemberPatch)
