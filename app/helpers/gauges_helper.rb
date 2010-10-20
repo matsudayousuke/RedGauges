@@ -11,4 +11,15 @@ module GaugesHelper
   def get_week(date)
     get_start_of_week(date) .. get_end_of_week(date)
   end
+
+  def issues_tip(issues)
+    ret = '<table class="list">'
+    issues.each do |i| 
+      ret += '<tr class="' + cycle('odd', 'even') + '">'
+      ret += '<td>' + i.to_s + '</td>'
+      ret += '</tr>'
+    end
+    ret += '</table>'
+  end
+
 end
