@@ -15,9 +15,18 @@
       <td><%= "#{member.user.firstname} #{member.user.lastname}" %></td>
       <% get_week(@base_date).each do |date| %>
         <% drop_receiving_id = "#{member.id.to_s}_#{date.to_s}" %>
-        <td id='<%= drop_receiving_id %>'>
+        <td class="cell" id='<%= drop_receiving_id %>'>
           <%= progress_bar([member.closed_pourcent_by_date(date), member.completed_pourcent_by_date(date)], :width => '100%') %>
-          <%= member.closed_issues_by_date(date).size %> / <%= member.issues_by_date(date).size %>
+          <% if member.issues_by_date(date).size > 0 %>
+            <div id="gauge_closed">
+              <div class="gauge_label"><%= l(:label_closed) %>: </div>
+              <div class="gauge_value"><%= member.closed_issues_by_date(date).size %></div>
+            </div>
+            <div id="gauge_all">
+              <div class="gauge_label"><%= l(:label_all) %>: </div>
+              <div class="gauge_value"><%= member.issues_by_date(date).size %></div>
+            </div>
+          <% end %>
           <%= drop_receiving_element drop_receiving_id,
             :update => 'gauges',
             :with => "'dropped=' + element.id",
