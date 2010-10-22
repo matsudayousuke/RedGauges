@@ -39,9 +39,9 @@ class GaugesController < ApplicationController
   end
 
   def move_issue
-    new_member_id = params[:where].split("|")[0]
-    new_date = params[:where].split("|")[1]
-    issue_id = params[:dropped].split("-")[1]
+    new_member_id = params[:where].split("_")[0]
+    new_date = params[:where].split("_")[1]
+    issue_id = params[:dropped].split("_")[1]
     issue = Issue.find_by_id(issue_id)
     issue.assigned_to_id = new_member_id
     issue.start_date = new_date

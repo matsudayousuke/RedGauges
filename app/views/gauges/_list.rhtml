@@ -24,12 +24,12 @@
 		</tr>
 		<% previous_group = group %>
   <% end %>
-	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+	<tr id="issue_<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
 	    <td class="checkbox"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
 		<td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
         <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.name %><% end %>
 	</tr>
-    <%= draggable_element "issue-#{issue.id}", :revert => true, :ghosting => false %>
+    <%= draggable_element "issue_#{issue.id}", :revert => true, :ghosting => false %>
 	<% end -%>
 	</tbody>
 </table>
