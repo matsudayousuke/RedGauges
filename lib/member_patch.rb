@@ -11,7 +11,7 @@ module MemberPatch
     # Same as typing in the class
     base.class_eval do
       unloadable # Send unloadable so it will not be unloaded in development
-      has_many :issues, :foreign_key => "assigned_to_id"
+      has_many :issues, :primary_key => 'user_id', :foreign_key => "assigned_to_id"
     end
 
   end

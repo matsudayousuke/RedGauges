@@ -14,7 +14,7 @@
     <tr class="<%= cycle('odd', 'even') %>">
       <td><%= "#{member.user.firstname} #{member.user.lastname}" %></td>
       <% get_week(@base_date).each do |date| %>
-        <% drop_receiving_id = "#{member.id.to_s}_#{date.to_s}" %>
+        <% drop_receiving_id = "#{member.user_id.to_s}_#{date.to_s}" %>
         <td class="cell" id='<%= drop_receiving_id %>'>
           <%= progress_bar([member.closed_pourcent_by_date(date), member.completed_pourcent_by_date(date)], :width => '100%') %>
           <% if member.issues_by_date(date).size > 0 %>
