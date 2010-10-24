@@ -14,8 +14,8 @@ module GaugesHelper
 
   def issues_tip(issues)
     ret = '<table class="list">'
-    issues.each do |i| 
-      ret += '<tr class="' + cycle('odd', 'even') + '">'
+    issues.each do |i|
+      ret += '<tr id="tip-issue_' + i.id.to_s + '" class="' + cycle('odd', 'even') + '">'
       ret += '<td>' + i.to_s + '</td>'
       ret += '</tr>'
     end

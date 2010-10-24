@@ -6,9 +6,13 @@
 <script>
 jQuery.noConflict();
 var j$ = jQuery;
+function aaa() {
+  
+}
 </script>
 <h2><%= l(:label_gauges) %></h2>
 <%= render :partial => 'gauges/gauges', :locals => {:members => @members} %>
 <%= render :partial => 'gauges/list', :locals => {:issues => @issues, :query => @query} %>
+<%= draggable_element "tip-issue_3", :revert => true, :ghosting => false %>
 <div id="context-menu" style="display: none;"></div>
 <%= context_menu issues_context_menu_path %>

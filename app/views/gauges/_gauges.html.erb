@@ -17,15 +17,51 @@
         <% drop_receiving_id = "#{member.user_id.to_s}_#{date.to_s}" %>
         <td class="cell" id='<%= drop_receiving_id %>'>
           <%= progress_bar([member.closed_pourcent_by_date(date), member.completed_pourcent_by_date(date)], :width => '100%') %>
-          <% if member.issues_by_date(date).size > 0 %>
+          <% issues = member.issues_by_date(date) %>
+          <% if issues.size > 0 %>
             <div id="gauge_closed">
               <div class="gauge_label"><%= l(:label_closed) %>: </div>
               <div class="gauge_value"><%= member.closed_issues_by_date(date).size %></div>
             </div>
             <div id="gauge_all">
               <div class="gauge_label"><%= l(:label_all) %>: </div>
-              <div class="gauge_value"><%= member.issues_by_date(date).size %></div>
+              <div class="gauge_value"><%= issues.size %></div>
             </div>
+            <script language="javascript">
+              j$('#<%= drop_receiving_id %>').qtip({
+                content: '<%= issues_tip(issues) %>',
+                position: {
+                  corner: {
+                    target: 'topMiddle',
+                    tooltip: 'bottomMiddle'
+                  }
+                },
+                style: {
+                  border: {
+                    width: 7,
+                    radius: 7
+                  },
+                  tip: 'bottomMiddle',
+                  name: 'light'
+                },
+                show: 'mouseover',
+                hide: {
+                  when: 'mouseout',
+                  effect: {
+                    type: 'fade',
+                    length: 500
+                  },
+                  fixed: true
+                },
+                api: {
+                  onRender: function() {
+                    <% issues.each do |i| %>
+                      new Draggable('tip-issue_<%= i.id.to_s %>', {revert: true, ghosting:true});
+                    <% end %>
+                  }
+                }
+              });
+            </script>
           <% end %>
           <%= drop_receiving_element drop_receiving_id,
             :update => 'gauges',
@@ -37,35 +73,6 @@
             }
           %>
         </td>
-        <% if member.issues_by_date(date).size > 0 then %>
-          <script language="javascript">
-            j$('#<%= drop_receiving_id %>').qtip({
-              content: '<%= issues_tip(member.issues_by_date(date)) %>',
-              position: {
-                corner: {
-                  target: 'topMiddle',
-                  tooltip: 'bottomMiddle'
-                }
-              },
-              style: {
-                border: {
-                  width: 7,
-                  radius: 7
-                },
-                tip: 'bottomMiddle',
-                name: 'light'
-              },
-              show: 'mouseover',
-              hide: {
-                when: 'mouseout',
-                effect: {
-                  type: 'fade',
-                  length: 500
-                }
-              }
-            });
-          </script>
-        <% end %>
       <% end %>
     </tr>
     <% end %>
