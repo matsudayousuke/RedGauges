@@ -1,6 +1,6 @@
 module GaugesHelper
   def get_start_of_week(target)
-    return target + 1 if target.wday == 0
+    return target - 6 if target.wday == 0
     target - target.wday + 1
   end
 
