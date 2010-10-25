@@ -7,9 +7,9 @@ class GaugesController < ApplicationController
   include QueriesHelper
   helper :issues
   include IssuesHelper
+  before_filter :find_project, :authorize, :only => :index
 
   def index
-    @project = Project.find(params[:project_id])
     @base_date = Date.today
     @members = Member.with_week_issues(@base_date)
     retrieve_query
@@ -48,5 +48,11 @@ class GaugesController < ApplicationController
     issue.save
     @base_date = Date.strptime(params[:base_date])
     show_week
+  end
+
+  private
+
+  def find_project
+    @project = Project.find(params[:project_id])
   end
 end

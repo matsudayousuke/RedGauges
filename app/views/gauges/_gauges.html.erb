@@ -54,7 +54,7 @@
                   fixed: true
                 },
                 api: {
-                  onRender: function() {
+                  onShow: function() {
                     <% issues.each do |i| %>
                       new Draggable('tip-issue_<%= i.id.to_s %>', {revert: true, ghosting:true});
                     <% end %>
@@ -77,5 +77,5 @@
     </tr>
     <% end %>
   </table>
-  <input type="hidden" name="base_date" value="<%= @base_date.to_s %>">
+  <input type="hidden" name="base_date" value="<%= @base_date.to_s %>"/>
 </div>

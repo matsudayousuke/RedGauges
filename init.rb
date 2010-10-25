@@ -10,7 +10,9 @@ Redmine::Plugin.register :redmine_red_gauges do
   url 'http://github.com/matsudayousuke/RedGauges'
   author_url 'http://example.com/about'
 
-   permission :gauges, {:gauges => [:index]}, :public => true
-   menu :project_menu, :gauges, { :controller => 'gauges', :action => 'index' },
+  project_module :gauges do
+    permission :gauges, {:gauges => [:index]}, :public => false
+  end
+  menu :project_menu, :gauges, { :controller => 'gauges', :action => 'index' },
      :caption => :label_gauges, :after => :activity, :param => :project_id
 end
