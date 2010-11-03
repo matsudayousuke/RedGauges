@@ -69,6 +69,7 @@
             :hoverclass => "hover",
             :url => { :action => "move_issue",
               :where => drop_receiving_id,
+              :project_id => @project,
               :base_date => @base_date
             }
           %>
@@ -77,5 +78,6 @@
     </tr>
     <% end %>
   </table>
-  <input type="hidden" name="base_date" value="<%= @base_date.to_s %>"/>
+  <%= hidden_field_tag('project_id', @project.to_param) if @project %>
+  <%= hidden_field_tag('base_date', @base_date.to_s) if @base_date %>
 </div>

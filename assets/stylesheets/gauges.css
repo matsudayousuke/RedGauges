@@ -20,26 +20,31 @@ root {
 /*    border: 3px solid #99ccff; */
 }
 
-.gauge_label {
+.cell {
     color: #cccccc;
+    height: 60px;
+    width: 120px;
 }
 
 #gauge_closed {
     float: left;
     position: relative;
+    color: #777;
 }
 
 #gauge_all {
     float: right;
     position: relative;
+    color: #08C;
+}
+
+.gauge_label {
 }
 
 .gauge_value {
-    color: #cccccc;
     font-weight: bold;
     font-size: 14pt;
 }
 
-.cell {
-    height: 70px;
-}
+
+

@@ -7,10 +7,11 @@ class GaugesController < ApplicationController
   include QueriesHelper
   helper :issues
   include IssuesHelper
+
   before_filter :find_project, :authorize, :only => :index
 
   def index
-    @base_date = Date.today
+    @base_date ||= Date.today
     @members = Member.with_week_issues(@base_date)
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
