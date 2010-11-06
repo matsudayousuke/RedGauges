@@ -2,4 +2,11 @@ ja:
   label_gauges: "ゲージ"
   label_closed: "Closed"
   label_all: "All"
+  label_sunday: "日"
+  label_monday: "月"
+  label_tuesday: "火"
+  label_wednesday: "水"
+  label_thursday: "木"
+  label_friday: "金"
+  label_saturday: "土"
   

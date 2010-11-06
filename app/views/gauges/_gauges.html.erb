@@ -1,3 +1,4 @@
+<% form_tag({}) do -%>
 <div id="gauges">
   <%= link_to_remote(l(:label_previous), :update => "gauges",
     :url => {:action => :prev_week, :base_date => @base_date}) %>
@@ -7,7 +8,7 @@
     <tr>
       <th><%= l(:label_member) %></th>
       <% get_week(@base_date).each do |date| %>
-        <th><%= date.strftime("%m/%d") %></th>
+        <th><%= date.strftime("%m/%d").gsub(/\b0/, "") + "(#{wday(date)})" %></th>
       <% end %>
     </tr>
     <% @members.each do |member| %>
@@ -49,7 +50,7 @@
                   when: 'mouseout',
                   effect: {
                     type: 'fade',
-                    length: 500
+                    length: 300
                   },
                   fixed: true
                 },
@@ -81,3 +82,4 @@
   <%= hidden_field_tag('project_id', @project.to_param) if @project %>
   <%= hidden_field_tag('base_date', @base_date.to_s) if @base_date %>
 </div>
+<% end -%>
