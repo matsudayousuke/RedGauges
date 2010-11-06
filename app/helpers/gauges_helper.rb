@@ -18,7 +18,9 @@ module GaugesHelper
     issues.each do |i|
       ret += '<tr id="tip-issue_' + i.id.to_s + '" class="hascontextmenu ' + cycle('odd', 'even') + '">'
       ret += '<td class="checkbox">' + check_box_tag("ids[]", i.id, false, :id => nil) + '</td>'
-      ret += '<td nowrap>' + i.to_s + '</td>'
+      ret += '<td nowrap>' + 
+        "#" + i.id.to_s + link_to(i.subject, :controller => 'issues', :action => 'show', :id => i) +
+        '</td>'
       ret += '</tr>'
     end
     ret += '</table>'
