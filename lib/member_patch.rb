@@ -59,13 +59,24 @@ module MemberPatch
     end
 
     def issues_progress_by_date(date, open)
-        progress = 0
-        if issues_by_date(date).size > 0
-          progress = open ?
-            open_issues_by_date(date).size.to_f / issues_by_date(date).size :
-            closed_issues_by_date(date).size.to_f / issues_by_date(date).size
-        end
-        progress * 100
+      progress = 0
+      if issues_by_date(date).size > 0
+        average = estimated_average(date)
+        ratio = open ? 'done_ratio' : 100
+        done = issues.sum("COALESCE(estimated_hours, #{average}) * #{ratio}",
+                                  :include => :status,
+                                  :conditions => ["is_closed = ? and start_date = ?", !open, date]).to_f
+        progress = done / (average * issues_by_date(date).size)
+      end
+      progress
+    end
+
+    def estimated_average(date)
+      average = issues.average(:estimated_hours, :conditions => ["start_date = ?", date]).to_f
+      if average == 0
+        average = 1
+      end
+      average
     end
 
   end
