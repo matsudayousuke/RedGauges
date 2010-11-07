@@ -12,7 +12,7 @@
       <% end %>
     </tr>
     <% @members.each do |member| %>
-    <tr class="<%= cycle('odd', 'even') %>">
+    <tr class="<%= cycle('odd', 'even', :name => "members") %>">
       <td><%= "#{member.user.firstname} #{member.user.lastname}" %></td>
       <% get_week(@base_date).each do |date| %>
         <% drop_receiving_id = "#{member.user_id.to_s}_#{date.to_s}" %>
