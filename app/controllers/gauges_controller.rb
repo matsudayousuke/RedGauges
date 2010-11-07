@@ -13,6 +13,8 @@ class GaugesController < ApplicationController
   def index
     @base_date ||= Date.today
     @members = Member.with_week_issues(@base_date)
+    logger.debug('aaa')
+    logger.debug(@members)
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)

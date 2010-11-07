@@ -19,9 +19,13 @@ module MemberPatch
   module ClassMethods
     def with_week_issues(date)
       Member.find(:all, :joins =>
-          "LEFT JOIN users ON members.user_id = users.id " +
-          "LEFT JOIN issues ON members.user_id = issues.assigned_to_id " +
-          "AND issues.start_date BETWEEN #{get_start_of_week(date)} AND #{get_end_of_week(date)}")
+            " LEFT JOIN users ON members.user_id = users.id " +
+            " LEFT JOIN issues ON members.user_id = issues.assigned_to_id " +
+            " AND issues.start_date BETWEEN '#{get_start_of_week(date)}' AND '#{get_end_of_week(date)}'" +
+            " LEFT JOIN issue_statuses ON issues.status_id = issue_statuses.id ",
+          :select => 'distinct members.*',
+          :order => "users.firstname, users.lastname, issues.start_date, issue_statuses.position desc"
+      )
     end
   end
 
