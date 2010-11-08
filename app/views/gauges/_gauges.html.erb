@@ -73,7 +73,8 @@
               :where => drop_receiving_id,
               :project_id => @project,
               :base_date => @base_date
-            }
+            },
+            :complete => "j$('#' + element.id).remove();"
           %>
         </td>
       <% end %>
