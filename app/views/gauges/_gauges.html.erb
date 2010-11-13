@@ -45,7 +45,7 @@
                   tip: 'bottomMiddle',
                   name: 'light'
                 },
-                show: 'mouseover',
+                show: {when: 'mouseover', solo: true},
                 hide: {
                   when: 'mouseout',
                   effect: {
@@ -56,9 +56,9 @@
                 },
                 api: {
                   onShow: function() {
-                    j$(".qtip").css('z-index', '38');
+                    j$('.qtip').css('z-index', '38');
                     <% issues.each do |i| %>
-                      new Draggable('tip-issue_<%= i.id.to_s %>', {revert: true, ghosting:true});
+                      toDraggable('tip-issue_<%= i.id.to_s %>');
                     <% end %>
                   }
                 }
@@ -67,14 +67,14 @@
           <% end %>
           <%= drop_receiving_element drop_receiving_id,
             :update => 'gauges',
-            :with => "'dropped=' + element.id",
+            :with => "'dropped=' + getDroppedIssueIds(element)",
             :hoverclass => "hover",
             :url => { :action => "move_issue",
               :where => drop_receiving_id,
               :project_id => @project,
               :base_date => @base_date
             },
-            :complete => "j$('#' + element.id).remove();"
+            :complete => "j$('.qtip').remove();"
           %>
         </td>
       <% end %>

@@ -6,7 +6,24 @@
 <script>
 jQuery.noConflict();
 var j$ = jQuery;
-</script>
+
+function getSelectedIssues(dropped) {
+  var table = j$(dropped).parents("table.list");
+  return j$(".context-menu-selection", table);
+}
+
+function getDroppedIssueIds(dropped) {
+  var ret = dropped.id;
+  getSelectedIssues(dropped).each(function(){
+    ret += "," + this.id;
+  });
+  return ret;
+}
+
+function toDraggable(id) {
+  new Draggable(id, {revert: true, ghosting:true});
+}
+
 <h2><%= l(:label_gauges) %></h2>
 <%= render :partial => 'gauges/gauges', :locals => {:members => @members} %>
 <%= render :partial => 'gauges/list', :locals => {:issues => @issues, :query => @query} %>
