@@ -42,13 +42,16 @@ class GaugesController < ApplicationController
   def move_issue
     new_member_id = params[:where].split("_")[0]
     new_date = params[:where].split("_")[1]
-    params[:dropped].split(",").each do |element_id|
-      issue_id = element_id.split("_")[1]
-      issue = Issue.find_by_id(issue_id)
-      p issue
-      issue.assigned_to_id = new_member_id
-      issue.start_date = new_date
-      issue.save
+    Issue.transaction do
+      params[:dropped].split(",").each do |element_id|
+        issue_id = element_id.split("_")[1]
+        issue = Issue.find_by_id(issue_id)
+        issue.assigned_to_id = new_member_id
+        issue.start_date = new_date
+        if !issue.save
+          flash[:error] = issue.errors
+        end
+      end
     end
     @base_date = Date.strptime(params[:base_date])
     show_week

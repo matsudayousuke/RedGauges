@@ -3,7 +3,7 @@
     :url => {:action => :prev_week, :base_date => @base_date}) %>
   <%= link_to_remote(l(:label_next), :update => "gauges",
     :url => {:action => :next_week, :base_date => @base_date}) %>
-  <table class="list">
+  <table class="list gauges">
     <tr>
       <th><%= l(:label_member) %></th>
       <% get_week(@base_date).each do |date| %>
@@ -12,7 +12,7 @@
     </tr>
     <% @members.each do |member| %>
     <tr class="<%= cycle('odd', 'even', :name => "members") %>">
-      <td><%= "#{member.user.firstname} #{member.user.lastname}" %></td>
+      <td class="member"><%= "#{member.user.firstname} #{member.user.lastname}" %></td>
       <% get_week(@base_date).each do |date| %>
         <% drop_receiving_id = "#{member.user_id.to_s}_#{date.to_s}" %>
         <td class="cell" id='<%= drop_receiving_id %>'>
