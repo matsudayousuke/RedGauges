@@ -1,6 +1,6 @@
 = red_gauges
 
-## How to Install:
+# How to Install:
 
 Download the sources and put them to your vendor/plugins folder.
 
