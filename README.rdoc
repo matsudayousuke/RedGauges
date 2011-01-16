@@ -1,3 +1,19 @@
 = red_gauges
 
-Description goes here
+## How to Install:
+
+Download the sources and put them to your vendor/plugins folder.
+
+    $ cd {REDMINE_ROOT}
+    $ git clone git://github.com/matsudayousuke/RedGauges.git vendor/plugins/redmine_red_gauges 
+
+Restart your machine's server.
+
+    $ ruby script/server -e production
+
+<<attention!>>
+RedGauges now supports production environment only. 
+
+
+
+
