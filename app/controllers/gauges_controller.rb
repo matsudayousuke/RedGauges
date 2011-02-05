@@ -11,7 +11,9 @@ class GaugesController < ApplicationController
   before_filter :find_project, :authorize, :only => :index
 
   def index
-    @base_date ||= Date.today
+    @base_date = params.include?(:base_date) ? Date.strptime(params[:base_date]) : Date.today
+    @gauge_type = params.include?(:gauge_type) ? params[:gauge_type] : :by_amount
+p @gauge_type
     @members = Member.with_week_issues(@base_date)
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
@@ -19,24 +21,10 @@ class GaugesController < ApplicationController
     if @query.valid?
       @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
         :order => sort_clause)
+      respond_to do |format|
+        format.html { render :template => 'gauges/index.html.erb', :layout => !request.xhr? }
+      end
     end
-  end
-
-  def prev_week
-    @base_date = Date.strptime(params[:base_date])
-    @base_date = @base_date - 1.weeks
-    show_week
-  end
-
-  def next_week
-    @base_date = Date.strptime(params[:base_date])
-    @base_date = @base_date + 1.weeks
-    show_week
-  end
-
-  def show_week
-    @members = Member.with_week_issues(@base_date)
-    render :layout => false, :partial => 'gauges/gauges'
   end
 
   def move_issue

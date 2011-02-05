@@ -9,3 +9,6 @@ en:
   label_thursday: "Thu"
   label_friday: "Fri"
   label_saturday: "Sat"
+  label_gauge_type: "Gauge type"
+  label_by_amount: "By amount"
+  label_by_hours: "By hours"

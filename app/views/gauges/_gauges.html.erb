@@ -1,8 +1,26 @@
 <div id="gauges">
-  <%= link_to_remote(l(:label_previous), :update => "gauges",
-    :url => {:action => :prev_week, :base_date => @base_date}) %>
-  <%= link_to_remote(l(:label_next), :update => "gauges",
-    :url => {:action => :next_week, :base_date => @base_date}) %>
+  <%= link_to_remote l(:label_previous),
+    { :update => "content",
+      :url => {:base_date => @base_date - 1.weeks},
+      :with => "Form.serialize('gauge_form')"
+    } %>
+  <%= link_to_remote(l(:label_next), :update => "content",
+    :url => {:base_date => @base_date + 1.weeks},
+    :with => "Form.serialize('gauge_form')") %>
+
+  <%= l(:label_gauge_type) %>
+  <%= link_to_remote l(:label_by_amount),
+    { :update => "content",
+      :url => {:gauge_type => :by_amount},
+      :with => "Form.serialize('gauge_form')"
+    } %>
+  <%= link_to_remote l(:label_by_hours),
+    { :update => "content",
+      :url => {:gauge_type => :by_hours},
+      :with => "Form.serialize('gauge_form')"
+    } %>
+
+  <% form_tag({:controller => 'gauges'}, :id => 'gauge_form') do %>
   <table class="list gauges">
     <tr>
       <th><%= l(:label_member) %></th>
@@ -16,7 +34,7 @@
       <% get_week(@base_date).each do |date| %>
         <% drop_receiving_id = "#{member.user_id.to_s}_#{date.to_s}" %>
         <td class="cell" id='<%= drop_receiving_id %>'>
-          <%= progress_bar([member.closed_pourcent_by_date(date), member.completed_pourcent_by_date(date)], :width => '100%') %>
+          <%= progress_bar([member.closed_pourcent_by_date(date, @gauge_type), member.completed_pourcent_by_date(date, @gauge_type)], :width => '100%') %>
           <% issues = member.issues_by_date(date) %>
           <% if issues.size > 0 %>
             <div id="gauge_closed">
@@ -83,4 +101,6 @@
   </table>
   <%= hidden_field_tag('project_id', @project.to_param) if @project %>
   <%= hidden_field_tag('base_date', @base_date.to_s) if @base_date %>
+  <%= hidden_field_tag('gauge_type', @gauge_type.to_s) if @gauge_type %>
+  <% end %>
 </div>

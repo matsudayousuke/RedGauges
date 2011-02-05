@@ -9,4 +9,8 @@ ja:
   label_thursday: "木"
   label_friday: "金"
   label_saturday: "土"
+  label_gauge_type: "ゲージ切替"
+  label_by_amount: "タスク数"
+  label_by_hours: "時間"
+
   

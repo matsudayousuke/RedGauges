@@ -50,27 +50,32 @@ module MemberPatch
       issues.find_all {|i| !i.closed?}
     end
 
-    def completed_pourcent_by_date(date)
+    def completed_pourcent_by_date(date, gauge_type)
       return 0 if issues_by_date(date).size == 0
       return 100 if open_issues_by_date(date).size == 0
-      issues_progress_by_date(date, false) +
-        issues_progress_by_date(date, true)
+      issues_progress_by_date(date, false, gauge_type) +
+        issues_progress_by_date(date, true, gauge_type)
     end
 
-    def closed_pourcent_by_date(date)
+    def closed_pourcent_by_date(date, gauge_type)
       return 0 if issues_by_date(date).size == 0
-      issues_progress_by_date(date, false)
+      issues_progress_by_date(date, false, gauge_type)
     end
 
-    def issues_progress_by_date(date, open)
+    def issues_progress_by_date(date, open, gauge_type)
       progress = 0
-      if issues_by_date(date).size > 0
-        average = estimated_average(date)
-        ratio = open ? 'done_ratio' : 100
-        done = issues.sum("COALESCE(estimated_hours, #{average}) * #{ratio}",
-                                  :include => :status,
-                                  :conditions => ["is_closed = ? and start_date = ?", !open, date]).to_f
-        progress = done / (average * issues_by_date(date).size)
+      if gauge_type == :by_amount
+        if issues_by_date(date).size > 0
+          average = estimated_average(date)
+          ratio = open ? 'done_ratio' : 100
+          done = issues.sum("COALESCE(estimated_hours, #{average}) * #{ratio}",
+                                    :include => :status,
+                                    :conditions => ["is_closed = ? and start_date = ?", !open, date]).to_f
+          progress = done / (average * issues_by_date(date).size)
+        end
+      else
+        issues = open ? open_issues_by_date(date) : closed_issues_by_date(date)
+        progress = issues.inject(0){|ret, i|ret + i.hours_for_gauge} / 8 * 100
       end
       progress
     end
